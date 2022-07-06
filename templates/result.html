@@ -6,6 +6,10 @@
 </head>
 <body>
 <h2>Final results</h2>
-The output is {{result}}
+{% if result >=50 %}
+    Your result is passed
+{% else %}
+    Your result is fail
+{% endif %}
 </body>
 </html>

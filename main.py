@@ -9,7 +9,7 @@ def welcome1():
     return 'Hello admin!!'
 @app.route('/pass/<int:score>')
 def success(score):
-    return render_template('result.html',result ='PASS')
+    return render_template('result.html',result =score)
 
 @app.route('/fail/<int:score>')
 def fail(score):
@@ -35,12 +35,12 @@ def submit():
         maths = float(request.form['maths'])
         total_score=(science+maths)/2
         print(total_score)
-    res=""
-    if total_score >=50:
-        res="success"
-    else:
-        res="fail"
-    return redirect(url_for(res, score=total_score))
+    # res=""
+    # if total_score >=50:
+    #     res="success"
+    # else:
+    #     res="fail"
+    return redirect(url_for("success", score=total_score))
 
 if __name__ == '__main__':
     app.run(debug =True)
