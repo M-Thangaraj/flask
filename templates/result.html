@@ -6,10 +6,14 @@
 </head>
 <body>
 <h2>Final results</h2>
-{% if result >=50 %}
-    Your result is passed
-{% else %}
-    Your result is fail
-{% endif %}
+<table border="1">
+    {% for key, value in result.items() %}
+        <tr>
+            <th>{{ key }}</th>
+            <th>{{ value }}</th>
+        </tr>
+    {% endfor %}
+</table>
+
 </body>
 </html>

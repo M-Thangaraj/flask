@@ -9,7 +9,13 @@ def welcome1():
     return 'Hello admin!!'
 @app.route('/pass/<int:score>')
 def success(score):
-    return render_template('result.html',result =score)
+    res=""
+    if score >= 50:
+        res ='PASS'
+    else:
+        res ='FAIL'
+    dic ={'score':score, 'res':res}
+    return render_template('result.html',result =dic)
 
 @app.route('/fail/<int:score>')
 def fail(score):
