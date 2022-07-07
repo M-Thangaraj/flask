@@ -1,28 +1,30 @@
-from flask import Flask,redirect,url_for
+from flask import Flask, render_template, Response
+import cv2
 app = Flask(__name__)
+camera = cv2.VideoCapture(0)
+
+def generate_video():
+    while True:
+        success,frame = camera.read()
+        if not success:
+            break
+        else:
+            ret, buffer= cv2.imencode('.jpg',frame)
+            frame =buffer.tobytes()
+        yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 @app.route('/')
 def welcome():
-    return 'Hello world!!!'
-@app.route('/admin')
-def welcome1():
-    return 'Hello admin!!'
-@app.route('/pass/<int:score>')
-def success(score):
-    return 'The person has passed and got '+str(score) +'marks'
+    return  render_template('index.html')
 
-@app.route('/fail/<int:score>')
-def fail(score):
-    return 'The person had failed and got '+str(score) +'marks'
+@app.route('/livestream')
+def video_feed():
+    return Response(generate_video(),mimetype='multipart/x-mixed-replace; boundary=frame')
 
-@app.route('/results/<int:marks>')
-def results(marks):
-    result=""
-    if marks <50:
-        result='fail'
-    else:
-        result='success'
 
-    return redirect(url_for(result,score=marks))
+
+
+
 if __name__ == '__main__':
     app.run(debug =True)
